@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gerenciador_de_Tarefas.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,25 +7,21 @@ using System.Threading.Tasks;
 
 namespace Gerenciador_de_Tarefas.Entities
 {
-    internal class Tarefa : TarefaBase
+    internal class Tarefa
     {
-        public Tarefa(string descricao, int prioridade, bool concluida) : base(descricao, prioridade, concluida)
+        public string Descricao { get; set; }
+        public Prioridade Prioridade { get; set; }
+        public Tarefa(string descricao, Prioridade prioridade, bool concluida)
         {
+            Descricao = descricao;
+            Prioridade = prioridade;
         }
 
-        public override int DefinirPrioridade()
+        public override string ToString()
         {
-            throw new NotImplementedException();
+            return $"{Descricao}, \n{Prioridade}";
         }
 
-        public override void EditarDescricao()
-        {
-            throw new NotImplementedException();
-        }
 
-        public override bool MarcarConcluida()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
