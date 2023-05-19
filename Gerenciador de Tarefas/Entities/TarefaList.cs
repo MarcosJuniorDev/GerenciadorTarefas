@@ -8,6 +8,7 @@ namespace Gerenciador_de_Tarefas.Entities
         public string Name { get; set; }
         public bool Concluida { get; set; }
         public List<Tarefa> Tarefas { get; set; } = new List<Tarefa>();
+        public DateTime Hora { get; set; }
 
         public TarefaList()
         {
@@ -17,6 +18,7 @@ namespace Gerenciador_de_Tarefas.Entities
         {
             Name = name;
             Concluida = concluida;
+            Hora = DateTime.Now;
         }
 
         public void AdicionarTarefa(Tarefa tarefa)

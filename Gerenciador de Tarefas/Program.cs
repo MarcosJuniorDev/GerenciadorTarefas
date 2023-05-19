@@ -5,15 +5,16 @@ namespace Gerenciador_de_Tarefas
 {
     internal class Program
     {
-        private const string FILE_NAME = "Test.txt";
+        private const string FILE_NAME = "Save.data";
         static void Main(string[] args)
         {
+            DateTime hora = DateTime.Now;
             bool encerrarPrograma = false;
             bool listaNaTela = false;
             MostrarDadosNaTela();
             while (!encerrarPrograma)
             {
-                
+
                 int opcao = int.Parse(Console.ReadLine());
                 Console.Clear();
                 if (opcao == 1)
@@ -25,7 +26,7 @@ namespace Gerenciador_de_Tarefas
                     Console.Write("Prioridade da tarefa (Baixa, Media e Alta): ");
                     Prioridade prio = Enum.Parse<Prioridade>(Console.ReadLine());
                     TarefaList listaDeTarefa = new TarefaList(name, false);
-                    listaDeTarefa.AdicionarTarefa(new Tarefa(desc, prio, false));
+                    listaDeTarefa.AdicionarTarefa(new Tarefa(desc, prio));
 
                     if (!File.Exists(FILE_NAME))
                     {
@@ -38,7 +39,9 @@ namespace Gerenciador_de_Tarefas
                                 {
 
                                     tw.WriteLine(tarefa);
+
                                 }
+                                tw.WriteLine(listaDeTarefa.Hora);
 
                             }
                         }
@@ -56,24 +59,38 @@ namespace Gerenciador_de_Tarefas
                             {
                                 sw.WriteLine(tarefa);
                             }
-
+                            sw.WriteLine(listaDeTarefa.Hora);
                         }
                         Console.WriteLine("Lista criada pressione ENTER para voltar ao menu");
                         Console.ReadLine();
                         MostrarDadosNaTela();
-;                    }
+                        ;
+                    }
                 }
                 else if (opcao == 2)
                 {
+                    if (!File.Exists(FILE_NAME))
+                    {
+                        Console.WriteLine("ainda não existe lista salva");
+                        break;
+                    }
                     List<TarefaList> listaTarefa = LerDados();
+                    if (listaTarefa == null)
+                    {
+                        Console.WriteLine("ainda não existe lista salva");
+                        break;
+                    }
 
                     foreach (TarefaList tarefa in listaTarefa)
                     {
-                        Console.WriteLine($"Nome da lista: {tarefa.Name}");
+                        Console.WriteLine($"Nome da lista:          {tarefa.Name}");
+                        Console.WriteLine();
                         foreach (Tarefa tarefas in tarefa.Tarefas)
                         {
-                            Console.WriteLine($"Descrição: \n{tarefas.Descricao} \nPrioridade: {tarefas.Prioridade}");
+                            Console.WriteLine($"Descrição: \n{tarefas.Descricao} \n\nPrioridade: {tarefas.Prioridade}");
                         }
+                        Console.WriteLine();
+                        Console.WriteLine($"{tarefa.Hora}");
                         Console.WriteLine("--------------------------------------------------------");
                         Console.WriteLine();
 
@@ -97,6 +114,10 @@ namespace Gerenciador_de_Tarefas
                     Console.WriteLine();
                     Console.WriteLine("Voce removeu a lista de tarefa, aperte ENTER para voltar ao menu");
                     MostrarDadosNaTela();
+                }
+                else
+                {
+                    break;
                 }
 
             }
@@ -144,6 +165,7 @@ namespace Gerenciador_de_Tarefas
             Console.WriteLine("1 - Adionar uma lista de tarefa.");
             Console.WriteLine("2 - Listar as lista de tarefas");
             Console.WriteLine("3 - Remover uma lista");
+            Console.WriteLine("Qualquer outro botao para sair do programa");
             Console.WriteLine();
         }
 
@@ -160,7 +182,9 @@ namespace Gerenciador_de_Tarefas
                     tarefaList1.Name = nome;
                     string descricao = sr.ReadLine();
                     Prioridade prio = Enum.Parse<Prioridade>(sr.ReadLine());
-                    Tarefa tarefa = new Tarefa(descricao, prio, false);
+                    DateTime hora = DateTime.Parse(sr.ReadLine());
+                    Tarefa tarefa = new Tarefa(descricao, prio);
+                    tarefaList1.Hora = hora;
 
                     tarefaList1.Tarefas.Add(tarefa);
                     tarefaList.Add(tarefaList1);

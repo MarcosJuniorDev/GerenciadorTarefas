@@ -11,7 +11,12 @@ namespace Gerenciador_de_Tarefas.Entities
     {
         public string Descricao { get; set; }
         public Prioridade Prioridade { get; set; }
-        public Tarefa(string descricao, Prioridade prioridade, bool concluida)
+
+        public Tarefa()
+        {
+        }
+
+        public Tarefa(string descricao, Prioridade prioridade)
         {
             Descricao = descricao;
             Prioridade = prioridade;
@@ -19,7 +24,7 @@ namespace Gerenciador_de_Tarefas.Entities
 
         public override string ToString()
         {
-            return $"{Descricao}, \n{Prioridade}";
+            return $"{Descricao}\n{Prioridade}";
         }
 
 
